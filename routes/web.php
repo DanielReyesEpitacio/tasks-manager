@@ -11,6 +11,9 @@ use App\Http\Controllers\TaskRolController;
 Route::get("/home",function(){
     return view('Home');
 })->name('home');
+Route::get("/",function(){
+    return view('Home');
+});
 
 Route::middleware(['guest'])->group(function(){
     Route::get("/login",function(){return view('Login');})->name('login');
