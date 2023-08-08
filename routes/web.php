@@ -8,13 +8,14 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TaskRolController;
 
-Route::get("/",function(){
+Route::get("/home",function(){
     return view('Home');
 })->name('home');
 
-Route::get("/login",function(){return view('Login');})->name('login');
-Route::post("/logout",[AuthController::class,"logout"])->name('logout');
-Route::post("/login",[AuthController::class,"login"])->name('login');
+Route::middleware(['guest'])->group(function(){
+    Route::get("/login",function(){return view('Login');})->name('login');
+    Route::post("/login",[AuthController::class,"login"])->name('login');    
+});
 
 Route::middleware(['auth'])->group(function () {
     
@@ -22,6 +23,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('task', TaskController::class);
     Route::resource('roles', RolController::class);
     Route::resource('task-role',TaskRolController::class);
+
+    Route::post("/logout",[AuthController::class,"logout"])->name('logout');
         
 });
 

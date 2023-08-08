@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de drag and drop</title>
+
+    <style>
+    .draggable {
+      cursor: move;
+    }
+    
+    .dropzone {
+      width: 200px;
+      height: 200px;
+      border: 2px dashed #aaa;
+    }
+    
+    .dropzone.highlight {
+      border-color: #ff0000;
+    }
+
+    </style>
+</head>
+<body>
+    <!-- Elementos arrastrables -->
+<div class="dropzone">
+    <div class="draggable" draggable="true">Elemento 1</div>
+    <div class="draggable" draggable="true">Elemento 2</div>
+</div>
+<!-- Contenedor donde se pueden soltar los elementos -->
+<div class="dropzone"></div>
+<br />
+<div class="dropzone"></div>
+
+<script type="text/javascript">
+    // JavaScript
+document.addEventListener('DOMContentLoaded', () => {
+  const draggables = document.querySelectorAll('.draggable');
+  const dropzones = document.querySelectorAll('.dropzone');
+
+  let draggedItem = null;
+
+  // Agregar eventos de arrastrar y soltar a los elementos
+  draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', dragStart);
+    draggable.addEventListener('dragend', dragEnd);
+  });
+
+  dropzones.forEach(dropzone=>{
+    dropzone.addEventListener('dragover', dragOver);
+    dropzone.addEventListener('dragenter', dragEnter);
+    dropzone.addEventListener('dragleave', dragLeave);
+    dropzone.addEventListener('drop', drop);
+  });
+ 
+
+  function dragStart(e) {
+    draggedItem = this;
+    setTimeout(() => {
+      this.style.display = 'none';
+    }, 0);
+  }
+
+  function dragEnd() {
+    draggedItem = null;
+    this.style.display = 'block';
+  }
+
+  function dragOver(e) {
+    e.preventDefault();
+  }
+
+  function dragEnter(e) {
+    e.preventDefault();
+    this.classList.add('highlight');
+  }
+
+  function dragLeave() {
+    this.classList.remove('highlight');
+  }
+
+  function drop() {
+    this.classList.remove('highlight');
+    this.appendChild(draggedItem);
+    alert("Contendino agregado");
+  }
+});
+
+</script>
+
+</body>
+</html>
